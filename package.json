@@ -1,6 +1,6 @@
 {
   "name": "@present-day/buzz",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Cross-platform haptic and audio feedback library for web applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "build:all": "npm run build && npm run build:playground",
     "dev": "tsc --watch",
     "test": "vitest",
-    "test:run": "vitest run --passWithNoTests",
+    "test:run": "vitest run",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

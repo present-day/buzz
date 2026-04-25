@@ -81,11 +81,7 @@ function isIOSDevice() {
 }
 
 function hasVibrationApi() {
-  return (
-    isClient() &&
-    typeof navigator.vibrate === 'function' &&
-    typeof navigator !== 'undefined'
-  )
+  return isClient() && typeof navigator.vibrate === 'function'
 }
 
 function shouldPlayHaptics(enabledOverride?: boolean, storageAdapter?: StorageAdapter) {
