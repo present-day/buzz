@@ -29,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/present-day/buzz.git"
+    "url": "git+https://github.com/present-day/buzz.git"
   },
   "publishConfig": {
     "access": "public"
