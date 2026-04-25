@@ -1,0 +1,46 @@
+name: Publish to npm
+
+# Publishing the same version twice always fails. Run only when you tag a release
+# (e.g. after merging a version bump: git tag vX.Y.Z && git push origin vX.Y.Z),
+# or use "Run workflow" from the Actions tab (workflow_dispatch).
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # required for npm trusted publishing (OIDC)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # If your Trusted Publisher on npmjs.com has an "Environment" set, un-comment and set the
+    # same name. If you leave the comment below out, the npm side must have Environment empty.
+    # environment: <ENV_NAME>
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Trusted publishing needs npm >= 11.5.1. Node 24 ships that; avoid
+          # `npm install -g npm@…` on the runner (can MODULE_NOT_FOUND / break self-upgrade).
+          node-version: "24"
+          # Do NOT set registry-url here: it injects an .npmrc auth template and
+          # NODE_AUTH_TOKEN, which makes npm fall back to token auth and yields
+          # misleading E404s instead of trusted publishing.
+          cache: npm
+
+      - run: npm ci
+      - run: npm run test:run
+      - run: npm run build
+
+      - name: Publish to npm (OIDC)
+        # --loglevel=verbose surfaces the trusted-publishing OIDC exchange so
+        # misconfigurations show up as real diagnostics instead of a misleading
+        # ENEEDAUTH / 404 (see https://github.com/npm/cli/issues/9088).
+        run: npm publish --provenance --loglevel=verbose
+        env:
+          # Avoid any token from the job / org secrets shadowing trusted publishing.
+          NODE_AUTH_TOKEN: ""
