@@ -22,19 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          # Trusted publishing needs npm >= 11.5.1. Node 24 ships that; avoid
-          # `npm install -g npm@…` on the runner (can MODULE_NOT_FOUND / break self-upgrade).
-          node-version: "24"
-          # Do NOT set registry-url here: it injects an .npmrc auth template and
-          # NODE_AUTH_TOKEN, which makes npm fall back to token auth and yields
-          # misleading E404s instead of trusted publishing.
-          cache: npm
+          bun-version: latest
 
-      - run: npm ci
-      - run: npm run test:run
-      - run: npm run build
+      - run: bun install --frozen-lockfile
+      - run: bun run test:run
+      - run: bun run build
 
       - name: Publish to npm (OIDC)
         # --loglevel=verbose surfaces the trusted-publishing OIDC exchange so
