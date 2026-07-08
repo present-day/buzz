@@ -2,6 +2,8 @@
 
 Cross-platform haptic and audio feedback library for web applications.
 
+> **⚠️ iOS Safari note:** Apple has since disabled programmatic vibration on mobile Safari, so haptic feedback no longer fires there. Audio (WebAudio) feedback still works on iOS, and haptics continue to work on Android Chrome. The library degrades gracefully — calls are safe no-ops where haptics are unavailable.
+
 ## Features
 
 - 🎵 **WebAudio-based click sounds** with configurable intensity and gain
@@ -15,6 +17,8 @@ Cross-platform haptic and audio feedback library for web applications.
 ## Installation
 
 ```bash
+bun add @present-day/buzz
+# or
 npm install @present-day/buzz
 ```
 
@@ -131,7 +135,7 @@ setHapticFeedbackEnabled(true, customStorage)
 
 ## Platform Support
 
-- **iOS Safari**: Uses hidden checkbox technique for haptic feedback
+- **iOS Safari**: Haptics are no longer available — Apple has disabled programmatic vibration in mobile Safari (audio feedback still works)
 - **Android Chrome**: Uses Vibration API
 - **Desktop browsers**: Audio feedback only (no haptic support)
 - **WebAudio**: Supported in all modern browsers
