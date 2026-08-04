@@ -2,6 +2,8 @@
 
 Cross-platform haptic and audio feedback library for web applications.
 
+**[▶ Try the live playground](https://present-day.github.io/buzz/)**
+
 > **⚠️ iOS Safari note:** Apple has since disabled programmatic vibration on mobile Safari, so haptic feedback no longer fires there. Audio (WebAudio) feedback still works on iOS, and haptics continue to work on Android Chrome. The library degrades gracefully — calls are safe no-ops where haptics are unavailable.
 
 ## Features
